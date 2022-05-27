@@ -1,0 +1,49 @@
+@mixin generate($prefix, $property, $secondaryProperty:false) {
+    // Spacing to multiply the sizes by
+    $spacing: .25rem;
+    $max: 24;
+    $i: 0;
+  
+    @while $i <= $max {
+      $i: $i + 1;
+      
+      // Create the padding rule
+      @each $direction, $direction2 in $property {
+          .p#{$prefix}-#{$i} {
+            padding#{$direction}: $spacing * $i;
+            @if $direction2 {
+              padding#{$direction2}: $spacing * $i;
+            }
+          }
+      }
+  
+      // Create the margin rule
+      @each $direction, $direction2 in $property {
+          .m#{$prefix}-#{$i} {
+            margin#{$direction}: $spacing * $i;
+            @if $direction2 {
+              margin#{$direction2}: $spacing * $i;
+            }
+          }
+      }
+   
+    }
+  } 
+  
+  $x: ('-right': '-left');
+  $y: ('-top': '-bottom');
+  
+  $directions: (
+      '': '',
+      't': '-top',
+      'r': '-right',
+      'l': '-left',
+      'b': '-bottom',
+      'x': $x,
+      'y': $y
+  );
+  
+  @each $direction, $prop in $directions {
+      @include generate($direction, $prop);
+  }
+  

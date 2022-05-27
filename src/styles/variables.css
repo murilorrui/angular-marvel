@@ -1,0 +1,75 @@
+:root {
+    /* Fonts */
+    --font-family-base: Infra;
+    
+    /* Font Weight */
+    --font-weight-bold: 700;
+    --font-weight-medium: 500;
+    --font-weight-regular: 400;
+    
+    /* Brand Colors */
+    
+    /* Primary */
+    --primary: #ec1d25;
+    /* Secondary */
+    --secondary: #202020;
+    
+    /* Neutral Colors */
+    --neutral-color-100: #FFFFFF;
+    --neutral-color-200: #F6F7F9;
+    --neutral-color-300: #E7EAEE;
+    --neutral-color-400: #BAC4CF;
+    --neutral-color-500: #62788E;
+    --neutral-color-600: #425261;
+    --neutral-color-700: #232B33;
+    --neutral-color-800: #000000;
+    
+    /* Line Height */
+    --line-height-tight: 100%;
+    --line-height-medium: 130%;
+    --line-height-distant: 150%;
+    
+    /* Letter Spacing */
+    --letter-spacing-tight: -0.5px;
+    --letter-spacing-default: 0px;
+    --letter-spacing-distant: 0.5px;
+    
+    /* Font Size */
+    --font-size-2xs: 0.75rem;
+    --font-size-xs: 0.875rem;
+    --font-size-sm: 1rem;
+    --font-size-md: 1.25rem;
+    --font-size-lg: 1.5rem;
+    --font-size-xl: 2rem;
+    --font-size-2xl: 3rem;
+    
+    /* Border Radius */
+    --border-radius-xs: 0.25rem;
+    --border-radius-sm: 0.5rem;
+    --border-radius-md: 1rem;
+    --border-radius-lg: 1.5rem;
+    --border-radius-pill: 31.25rem;
+    
+    /* Border Width */
+    --border-width-xs: 0.063rem;
+    --border-width-sm: 0.125rem;
+    --border-width-md: 0.25rem;
+    
+    /* Opacity Levels */
+    --opacity-level-1: 0.80;
+    --opacity-level-2: 0.64;
+    --opacity-level-3: 0.32;
+    --opacity-level-4: 0.16;
+    --opacity-level-5: 0.08;
+    
+    /* Shadow */
+    --shadow-level-1: 0rem 0.25rem 0.5rem;
+    --shadow-level-2: 0rem 0.5rem 1.5rem;
+    --shadow-level-3: 0rem 1rem 3rem;
+    
+    /* Icon Size */
+    --ic-size-sm: 16px;
+    --ic-size-md: 24px;
+    --ic-size-lg: 40px;
+    --ic-size-xl: 64px;
+}
