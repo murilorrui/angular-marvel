@@ -1,0 +1,9 @@
+<header class="header">
+  <div class="header__menu" (click)="sidebarIsVisible = !sidebarIsVisible">
+    <img src="../../../assets/menu.svg" alt="">
+  </div>
+  <div class="header__navigation" [ngClass]="{'header__navigation--visible': sidebarIsVisible}"></div>
+  <div class="header__logo">
+    <img src="../../../assets/marvel.svg" alt="marvel-logo">
+  </div>
+</header>

@@ -63,7 +63,7 @@
     --opacity-level-5: 0.08;
     
     /* Shadow */
-    --shadow-level-1: 0rem 0.25rem 0.5rem;
+    --shadow-level-1: 0px 1px 10px;
     --shadow-level-2: 0rem 0.5rem 1.5rem;
     --shadow-level-3: 0rem 1rem 3rem;
     

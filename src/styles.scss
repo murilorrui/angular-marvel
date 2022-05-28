@@ -1,3 +1,7 @@
 @import '/src/styles/_reset.scss';
 @import '/src/styles/mixins/__spacing.scss';
 @import '/src/styles/mixins/__colors.scss';
+
+html {
+    background-color: var(--secondary);
+}
