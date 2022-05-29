@@ -2,7 +2,18 @@
   <div class="header__menu" (click)="sidebarIsVisible = !sidebarIsVisible">
     <img src="../../../assets/menu.svg" alt="">
   </div>
-  <div class="header__navigation" [ngClass]="{'header__navigation--visible': sidebarIsVisible}"></div>
+  <div 
+    class="header__navigation" 
+    [ngClass]="{'header__navigation--visible': sidebarIsVisible}"
+  >
+    <div 
+      class="header__navigation__item"
+      [ngClass]="{'header__navigation__item--active': checkRouteIsActive('/')}"
+    >
+      <img src="../../../assets/characters.svg" alt="characeters-menu">
+      <div>Characters</div>
+    </div>
+  </div>
   <div class="header__logo">
     <img src="../../../assets/marvel.svg" alt="marvel-logo">
   </div>

@@ -1,0 +1,34 @@
+<section class="characters">
+  <div class="characters__search-results"
+    infinite-scroll
+    [infiniteScrollDistance]="scrollDistance"
+    [infiniteScrollUpDistance]="scrollUpDistance"
+    [infiniteScrollThrottle]="throttle"
+    (scrolled)="onScrollDown()"
+  >
+    <div 
+      class="characters__grid" 
+      *ngFor="let grid of [].constructor(multipleLimite - 1); index as gridIndex"
+    >
+      <div 
+        *ngFor="let character of characters.slice((gridIndex * 10), ((gridIndex + 1) * 10)); index as characterIndex" 
+        [ngStyle]="getGridArea(characterIndex)"
+        class="characters__box" 
+      >
+        <div class="characters__name__border"></div>
+        <div class="characters__name">
+          <span>
+            {{formatCharacterName(character.name)}}
+          </span>
+        </div>
+        <img [src]="getCharacterImage(character.thumbnail.path, character.thumbnail.extension)" [alt]="character.name">
+      </div>
+    </div>
+    <div *ngIf="loading">
+      <app-characters-loading></app-characters-loading>
+    </div>
+  </div>
+</section>
+
+
+

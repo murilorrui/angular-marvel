@@ -7,7 +7,9 @@ import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { PageTemplateComponent } from './layout/page-template/page-template.component';
 import { NavComponent } from './layout/nav/nav.component';
-import { HeroComponent } from './page/hero/hero.component';
+import { CharactersComponent } from './page/characters/characters.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { CharactersLoadingComponent } from './components/loadings/characters-page/characters-loading.component';
 
 @NgModule({
   declarations: [
@@ -16,11 +18,13 @@ import { HeroComponent } from './page/hero/hero.component';
     FooterComponent,
     PageTemplateComponent,
     NavComponent,
-    HeroComponent
+    CharactersComponent,
+    CharactersLoadingComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    InfiniteScrollModule
   ],
   providers: [],
   bootstrap: [AppComponent]
