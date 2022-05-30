@@ -8,7 +8,7 @@
   >
     <div 
       class="characters__grid" 
-      *ngFor="let grid of [].constructor(multipleLimite - 1); index as gridIndex"
+      *ngFor="let grid of [].constructor(multipleLimite); index as gridIndex"
     >
       <div 
         *ngFor="let character of characters.slice((gridIndex * 10), ((gridIndex + 1) * 10)); index as characterIndex" 

@@ -9,32 +9,36 @@ import { environment } from 'src/environments/environment';
 })
 export class CharactersComponent implements OnInit {
   characters: any = [];
-  throttle = 10;
-  scrollDistance = 1;
-  scrollUpDistance = 2;
-  limit = 10;
-  offset = 0;
-  multipleLimite = 1;
-  loading = false;
-  imageNotAvailableUrl = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
-  gitNotAvailableUrl = 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif';
-  constructor() { }
+  throttle: number = 10;
+  scrollDistance: number = 1;
+  scrollUpDistance: number = 2;
+  limit: number = 10;
+  offset: number = 0;
+  total: number = 0;
+  multipleLimite: number = 0;
+  loading: boolean = false;
+  imageNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
+  gitNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif';
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.getCharacters();
   }
 
   getCharacters = () => {
+    if (this.total < this.offset) return;
     this.loading = true;
     marvelApi.get(`/characters?limit=10&offset=${this.offset}&apikey=${environment.API_KEY}`)
       .then(({ data }) => {
         this.characters = this.characters.concat(data.data.results);
+        this.total = data.data.total;
       })
       .finally(() => {
         this.loading = false;
       });
     this.multipleLimite++;
-    this.offset = this.limit * this.multipleLimite
+    this.offset = this.limit * this.multipleLimite;
   }
 
   onScrollDown = () => {
@@ -56,9 +60,6 @@ export class CharactersComponent implements OnInit {
   }
 
   getCharacterImage = (image: string, format: string) => {
-    console.log(`${image}.${format}`);
-    console.log(this.imageNotAvailableUrl);
-    
     if (this.imageNotAvailableUrl === `${image}.${format}` || this.gitNotAvailableUrl === `${image}.${format}`) return '../../../assets/not-found.jpeg';
     return `${image}.${format}`;
   }

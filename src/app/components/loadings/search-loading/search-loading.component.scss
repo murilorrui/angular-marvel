@@ -1,0 +1,40 @@
+.search-loading {
+    &__image {
+        width: 4rem;
+        min-width: 4rem;
+        height: 4rem;
+        border-radius: 100%;
+    }
+    &__item {
+        padding: 1rem;
+        border-top: 1px solid var(--neutral-color-300);
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+    &__text {
+        width: 10rem;
+        height: .75rem;
+        @media (min-width: 758px) {
+            height: 1.25rem;
+        }
+    }
+}
+
+.loading {
+    position: relative;
+    cursor: progress;
+    background: 
+        linear-gradient(0.75turn, transparent, #fff, transparent),
+        linear-gradient(var(--neutral-color-300), var(--neutral-color-300));
+    background-repeat: no-repeat;
+    background-size: 100% 100%, 100% 100%, 200px 200px, 300px 200px; 
+    background-position: -100px 0, 0 0, 0px 190px, 200px 195px; 
+    animation: loading 1s infinite;
+}
+
+@keyframes loading {  
+    to {
+        background-position: 200px 0, 0 0, 0 190px, 200px 195px;
+    }
+}

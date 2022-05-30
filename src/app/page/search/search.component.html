@@ -1,0 +1,38 @@
+<section class="search">
+  <div class="search__input">
+    <app-dropdown 
+      [label]="searchType"
+      [options]="dropdownOptions"
+      (onSelect)="onSelectSearchType($event)"
+    ></app-dropdown>
+    <input
+      type="text"
+      [value]="searchValue"
+      (change)="setSearchValue($event)"
+      (keyup.enter)="newSearch()"
+    >
+    <img src="../../../assets/search.svg" alt="search-logo">
+  </div>
+  <div class="search__results">
+    {{total}} Results
+  </div>
+  <div
+    infinite-scroll
+    [infiniteScrollDistance]="scrollDistance"
+    [infiniteScrollUpDistance]="scrollUpDistance"
+    [infiniteScrollThrottle]="throttle"
+    (scrolled)="onScrollDown()"
+  >
+    <div *ngFor="let item of data" class="search__item">
+      <img [src]="getImage(item.thumbnail.path, item.thumbnail.extension)" [alt]="item.name">
+      <span>{{item.name || item.title}}</span>
+    </div>
+    <app-search-loading *ngIf="loading"></app-search-loading>
+  </div>
+  <div *ngIf="total === 0" class="search__not-found">
+    <h5>No results for teste1231231231231.</h5>
+    <span>Try checking your spelling</span>
+    <img src="../../../assets/search-not-found.jpeg" alt="search-not-found">
+  </div>
+</section>
+

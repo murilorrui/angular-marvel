@@ -1,0 +1,16 @@
+<div class="dropdown">
+  <button class="dropdown__button">
+    <span>
+      {{ label }}
+    </span>
+    <img src="../../../assets/chevron-down.svg" alt="chevron-down">
+  </button>
+  <div class="dropdown__content">
+    <button 
+      *ngFor="let item of options"
+      (click)="onSelectItem(item)"
+    >
+      {{ item.label }}
+    </button>
+  </div>
+</div>

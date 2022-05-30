@@ -9,6 +9,7 @@
     <div 
       class="header__navigation__item"
       [ngClass]="{'header__navigation__item--active': checkRouteIsActive('/')}"
+      (click)="goTo('/')"
     >
       <img src="../../../assets/characters.svg" alt="characeters-menu">
       <div>Characters</div>
@@ -16,5 +17,15 @@
   </div>
   <div class="header__logo">
     <img src="../../../assets/marvel.svg" alt="marvel-logo">
+  </div>
+  <div class="header__search">
+    <input 
+      type="text" 
+      placeholder="Search"
+      (change)="setSearchValue($event)"
+    >
+    <button (click)="searchCharacter()">
+      <img src="../../../assets//search.svg" alt="search-logo">
+    </button>
   </div>
 </header>

@@ -9,7 +9,10 @@ import { PageTemplateComponent } from './layout/page-template/page-template.comp
 import { NavComponent } from './layout/nav/nav.component';
 import { CharactersComponent } from './page/characters/characters.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { CharactersLoadingComponent } from './components/loadings/characters-page/characters-loading.component';
+import { CharactersLoadingComponent } from './components/loadings/characters-loading/characters-loading.component';
+import { SearchComponent } from './page/search/search.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { SearchLoadingComponent } from './components/loadings/search-loading/search-loading.component';
 
 @NgModule({
   declarations: [
@@ -19,12 +22,15 @@ import { CharactersLoadingComponent } from './components/loadings/characters-pag
     PageTemplateComponent,
     NavComponent,
     CharactersComponent,
-    CharactersLoadingComponent
+    CharactersLoadingComponent,
+    SearchComponent,
+    DropdownComponent,
+    SearchLoadingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

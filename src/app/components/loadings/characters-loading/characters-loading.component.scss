@@ -20,7 +20,7 @@
         background-repeat: no-repeat;
         background-size: 100% 100%, 100% 100%, 200px 200px, 300px 200px; 
         background-position: -515px 0, 0 0, 0px 190px, 200px 195px; 
-        animation: loading 2s infinite;
+        animation: loading 1s infinite;
         &--bigger {
             grid-area: 1 / 1 / span 2 / span 2;
         }
@@ -32,6 +32,6 @@
 
 @keyframes loading {  
     to {
-        background-position: 1000px 0, 0 0, 0 190px, 200px 195px;
+        background-position: 500px 0, 0 0, 0 190px, 200px 195px;
     }
 }

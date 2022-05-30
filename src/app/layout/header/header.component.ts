@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,11 +8,27 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   sidebarIsVisible: boolean = false;
+  searchValue: string = '';
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+  ) {
+  }
 
   checkRouteIsActive = (path: string) => {
     return path === this.router.url;
   }
 
+  setSearchValue = (e: any) => {
+    this.searchValue = e.target.value;
+  }
+
+  searchCharacter = () => {
+    this.router.navigate(['/search'], {queryParams: { search: this.searchValue }});
+    this.searchValue = '';
+  }
+
+  goTo = (path: string) => {
+    this.router.navigate([path]);
+  }
 }
