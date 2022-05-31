@@ -1,0 +1,54 @@
+<section class="profile">
+  <div class="profile__header" *ngIf="!loading">
+    <img [src]="getImage(profile.thumbnail.path, profile.thumbnail.extension)" [alt]="profile.name">
+    <div class="profile__infos">
+      <div class="profile__numbers">
+        <div>
+          <span>
+            {{profile.comics.available}}
+          </span>
+          <span>Comics</span>
+        </div>
+        <div>
+          <span>
+            {{profile.series.available}}
+          </span>
+          <span>Series</span>
+        </div>
+        <div>
+          <span>
+            {{profile.stories.available}}
+          </span>
+          <span>Stories</span>
+        </div>
+      </div>
+      <div class="profile__description" *ngIf="!loading && getScreenWidth > 415">
+        <h5>{{ profile.name || profile.fullName || profile.firstName }}</h5>
+        <span *ngIf="profile.description">{{ profile.description }}</span>
+      </div>
+    </div>
+  </div>
+  <app-profile-header-loading *ngIf="loading"></app-profile-header-loading>
+  <div class="profile__description" *ngIf="!loading && getScreenWidth < 415">
+    <h5>{{ profile.name || profile.fullName || profile.firstName }}</h5>
+    <span *ngIf="profile.description">{{ profile.description }}</span>
+  </div>
+  <app-options-menu 
+    [options]="menuOptions" 
+    (onSelect)="onSelectMenu($event)"
+    [active]="searchType"
+  ></app-options-menu>
+  <div
+    infinite-scroll
+    [infiniteScrollDistance]="scrollDistance"
+    [infiniteScrollUpDistance]="scrollUpDistance"
+    [infiniteScrollThrottle]="throttle"
+    (scrolled)="onScrollDown()"
+  >
+    <app-profile-grid 
+      [data]="data"
+      [multipleLimite]="multipleLimite"
+    ></app-profile-grid>
+    <app-profile-grid-loading *ngIf="loadingData"></app-profile-grid-loading>
+  </div>
+</section>

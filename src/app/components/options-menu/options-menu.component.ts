@@ -2,13 +2,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IOptions } from 'src/app/utils/Interfaces/IOptions';
 
 @Component({
-  selector: 'app-dropdown',
-  templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.scss']
+  selector: 'app-options-menu',
+  templateUrl: './options-menu.component.html',
+  styleUrls: ['./options-menu.component.scss']
 })
-export class DropdownComponent {
-  @Input() label: string = '';
-  @Input() options: Array<IOptions> = [];
+export class OptionsMenuComponent {
+  @Input() options: any;
+  @Input() active: string = '';
   @Output() onSelect: EventEmitter<IOptions> = new EventEmitter();
+
   constructor() { }
 }

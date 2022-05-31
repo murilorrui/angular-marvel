@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import marvelApi from 'src/app/services/marvel-api';
-import { IDropdown } from 'src/app/utils/Interfaces/IDropdown';
+import { IOptions } from 'src/app/utils/Interfaces/IOptions';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -22,7 +22,7 @@ export class SearchComponent implements OnInit {
   total: number = 0;
   searchType: string = 'characters';
   searchParam: string = 'nameStartsWith';
-  dropdownOptions: Array<IDropdown> = [
+  dropdownOptions: Array<IOptions> = [
     {
       label: 'characters',
       value: 'nameStartsWith',
@@ -53,6 +53,7 @@ export class SearchComponent implements OnInit {
     )
       .then(({ data }) => {
         this.data = this.data.concat(data.data.results);
+        console.log(this.data);
         this.total = data.data.total;
       })
       .finally(() => {
@@ -82,7 +83,7 @@ export class SearchComponent implements OnInit {
     this.getData();
   }
 
-  onSelectSearchType = (item: IDropdown) => {
+  onSelectSearchType = (item: IOptions) => {
     this.searchParam = item.value;
     this.searchType = item.label;
     this.newSearch();
