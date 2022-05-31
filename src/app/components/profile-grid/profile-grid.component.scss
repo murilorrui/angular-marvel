@@ -12,8 +12,9 @@
         height: 100%;
         position: relative;
         padding-right: .25rem;
+        padding-bottom: .25rem;
         @media (min-width: 758px) {
-            padding: 0 .5rem;
+            padding: 0 .5rem 1rem .5rem;
         }
         & > img {
             width: 100%;

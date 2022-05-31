@@ -2,25 +2,28 @@
   <div class="header__menu" (click)="sidebarIsVisible = !sidebarIsVisible">
     <img src="../../../assets/menu.svg" alt="">
   </div>
-  <div 
-    class="header__navigation" 
-    [ngClass]="{'header__navigation--visible': sidebarIsVisible}"
-  >
+  <div>
+    <div *ngIf="sidebarIsVisible" class="header__navigation-background"></div>
     <div 
-      class="header__navigation__item"
-      [ngClass]="{'header__navigation__item--active': checkRouteIsActive('/')}"
-      (click)="goTo('/')"
+      class="header__navigation"
+      [ngClass]="{'header__navigation--visible': sidebarIsVisible}"
     >
-      <img src="../../../assets/characters.svg" alt="characeters-menu">
-      <div>Characters</div>
-    </div>
-    <div 
-      class="header__navigation__item"
-      [ngClass]="{'header__navigation__item--active': checkRouteIsActive('/search')}"
-      (click)="goTo('/search')"
-    >
-      <img src="../../../assets/search.svg" alt="characeters-menu">
-      <div>Search</div>
+      <div 
+        class="header__navigation__item"
+        [ngClass]="{'header__navigation__item--active': checkRouteIsActive('/')}"
+        (click)="goTo('/')"
+      >
+        <img src="../../../assets/characters.svg" alt="characeters-menu">
+        <div>Characters</div>
+      </div>
+      <div 
+        class="header__navigation__item"
+        [ngClass]="{'header__navigation__item--active': checkRouteIsActive('/search')}"
+        (click)="goTo('/search')"
+      >
+        <img src="../../../assets/search.svg" alt="characeters-menu">
+        <div>Search</div>
+      </div>
     </div>
   </div>
   <div class="header__logo">
