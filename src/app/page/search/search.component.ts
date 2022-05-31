@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import marvelApi from 'src/app/services/marvel-api';
 import { IOptions } from 'src/app/utils/Interfaces/IOptions';
 import { environment } from 'src/environments/environment';
@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
   searchValue: string = '';
   offset: number = 0;
   limit: number = 10;
@@ -22,6 +22,7 @@ export class SearchComponent implements OnInit {
   total: number = 0;
   searchType: string = 'characters';
   searchParam: string = 'nameStartsWith';
+  firstRequest: boolean = true;
   dropdownOptions: Array<IOptions> = [
     {
       label: 'characters',
@@ -36,18 +37,12 @@ export class SearchComponent implements OnInit {
   gitNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif';
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
   ) {
-    this.searchValue = route.snapshot.queryParamMap.get('search') || '';
-  }
-
-  ngOnInit(): void {
-    this.getData();
   }
 
   getData = () => {
-    if (this.total < this.offset) return;
+    if ((this.total < this.offset) || this.searchValue.length === 0) return;
     this.loading = true;
     marvelApi.get(
       `/${this.searchType}?limit=10&offset=${this.offset}&${this.searchParam}=${this.searchValue}&apikey=${environment.API_KEY}`
@@ -58,6 +53,7 @@ export class SearchComponent implements OnInit {
       })
       .finally(() => {
         this.loading = false;
+        this.firstRequest = false;
       });
     this.multipleLimite++;
     this.offset = this.limit * this.multipleLimite;

@@ -53,12 +53,12 @@ export class CharactersComponent implements OnInit {
     if (index === 0) return {'grid-area': `1 / 1 / span 2 / span 2`};
 
     if (index === 6) {
-      return this.getScreenWidth > 416 ? 
+      return this.getScreenWidth > 425 ? 
         {'grid-area': `3 / 3 / span 2 / span 4`} :
         {'grid-area': `4 / 1 / span 2 / span 3`}
     }
 
-    return this.getScreenWidth > 416 ? 
+    return this.getScreenWidth > 425 ? 
       {'grid-area': 'auto / auto / span 2 / span 2'} :
       {'grid-area': 'auto'}
   }

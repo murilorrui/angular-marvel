@@ -33,8 +33,8 @@
     </div>
     <app-search-loading *ngIf="loading"></app-search-loading>
   </div>
-  <div *ngIf="total === 0" class="search__not-found">
-    <h5>No results for teste1231231231231.</h5>
+  <div *ngIf="total === 0 && !firstRequest" class="search__not-found">
+    <h5>No results for {{ searchValue }}</h5>
     <span>Try checking your spelling</span>
     <img src="../../../assets/search-not-found.jpeg" alt="search-not-found">
   </div>

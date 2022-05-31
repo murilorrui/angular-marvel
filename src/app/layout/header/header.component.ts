@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   sidebarIsVisible: boolean = false;
-  searchValue: string = '';
 
   constructor(
     private router: Router,
@@ -19,16 +18,8 @@ export class HeaderComponent {
     return path === this.router.url;
   }
 
-  setSearchValue = (e: any) => {
-    this.searchValue = e.target.value;
-  }
-
-  searchCharacter = () => {
-    this.router.navigate(['/search'], {queryParams: { search: this.searchValue }});
-    this.searchValue = '';
-  }
-
   goTo = (path: string) => {
+    this.sidebarIsVisible = false;
     this.router.navigate([path]);
   }
 }
