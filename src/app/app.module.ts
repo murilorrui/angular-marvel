@@ -13,6 +13,11 @@ import { CharactersLoadingComponent } from './components/loadings/characters-loa
 import { SearchComponent } from './page/search/search.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { SearchLoadingComponent } from './components/loadings/search-loading/search-loading.component';
+import { ProfileComponent } from './page/profile/profile.component';
+import { OptionsMenuComponent } from './components/options-menu/options-menu.component';
+import { ProfileGridComponent } from './components/profile-grid/profile-grid.component';
+import { ProfileHeaderLoadingComponent } from './components/loadings/profile-header-loading/profile-header-loading.component';
+import { ProfileGridLoadingComponent } from './components/loadings/profile-grid-loading/profile-grid-loading.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +30,12 @@ import { SearchLoadingComponent } from './components/loadings/search-loading/sea
     CharactersLoadingComponent,
     SearchComponent,
     DropdownComponent,
-    SearchLoadingComponent
+    SearchLoadingComponent,
+    ProfileComponent,
+    OptionsMenuComponent,
+    ProfileGridComponent,
+    ProfileHeaderLoadingComponent,
+    ProfileGridLoadingComponent
   ],
   imports: [
     BrowserModule,

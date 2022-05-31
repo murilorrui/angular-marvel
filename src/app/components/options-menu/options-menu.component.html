@@ -1,0 +1,10 @@
+<div class="options-menu">
+  <div
+    *ngFor="let option of options"
+    [ngClass]="{'options-menu__item--active': option.value === active}"
+    class="options-menu__item"
+    (click)="onSelect.emit(option)"
+  >
+    {{ option.label }}
+  </div>
+</div>
