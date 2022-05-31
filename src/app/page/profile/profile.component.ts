@@ -17,10 +17,10 @@ export class ProfileComponent implements OnInit {
   profile: any;
   data: any = [];
   offset: number = 0;
-  limit: number = 3;
+  limit: number = 9;
   throttle: number = 1;
   scrollDistance: number = 1;
-  multipleLimite: number = 0;
+  multipleLimite: number = 2;
   total: number = 0;
   menuOptions: Array<IOptions> = [
     {
@@ -69,6 +69,8 @@ export class ProfileComponent implements OnInit {
   }
 
   getData = () => {
+    console.log(1);
+    
     if (this.total < this.offset) return;
     this.loadingData = true;
     marvelApi.get(
