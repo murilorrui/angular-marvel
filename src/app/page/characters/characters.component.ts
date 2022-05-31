@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import marvelApi from 'src/app/services/marvel-api';
 import { environment } from 'src/environments/environment';
@@ -18,10 +18,12 @@ export class CharactersComponent implements OnInit {
   total: number = 0;
   multipleLimite: number = 0;
   loading: boolean = false;
+  getScreenWidth: number = 0 
   imageNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
   gitNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif';
 
   constructor(private router: Router) {
+    this.getScreenWidth = window.innerWidth;
   }
 
   ngOnInit(): void {
@@ -31,7 +33,7 @@ export class CharactersComponent implements OnInit {
   getCharacters = () => {
     if (this.total < this.offset) return;
     this.loading = true;
-    marvelApi.get(`/characters?limit=10&offset=${this.offset}&apikey=${environment.API_KEY}`)
+    marvelApi.get(`/characters?limit=${this.limit}&offset=${this.offset}&apikey=${environment.API_KEY}`)
       .then(({ data }) => {
         this.characters = this.characters.concat(data.data.results);
         this.total = data.data.total;
@@ -51,10 +53,14 @@ export class CharactersComponent implements OnInit {
     if (index === 0) return {'grid-area': `1 / 1 / span 2 / span 2`};
 
     if (index === 6) {
-      return {'grid-area': `4 / 1 / span 2 / span 3`}
+      return this.getScreenWidth > 416 ? 
+        {'grid-area': `3 / 3 / span 2 / span 4`} :
+        {'grid-area': `4 / 1 / span 2 / span 3`}
     }
 
-    return {'grid-area': 'auto'};
+    return this.getScreenWidth > 416 ? 
+      {'grid-area': 'auto / auto / span 2 / span 2'} :
+      {'grid-area': 'auto'}
   }
 
   formatCharacterName = (name: string) => {
@@ -68,5 +74,11 @@ export class CharactersComponent implements OnInit {
 
   onSelectItem = (item: any) => {
     this.router.navigate([`/profile/characters/${item.id}`]);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    this.getScreenWidth = window.innerWidth;
+    console.log(this.getScreenWidth);
   }
 }

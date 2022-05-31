@@ -11,7 +11,7 @@
       *ngFor="let grid of [].constructor(multipleLimite); index as gridIndex"
     >
       <div 
-        *ngFor="let character of characters.slice((gridIndex * 10), ((gridIndex + 1) * 10)); index as characterIndex" 
+        *ngFor="let character of characters.slice((gridIndex * limit), ((gridIndex + 1) * limit)); index as characterIndex" 
         [ngStyle]="getGridArea(characterIndex)"
         (click)="onSelectItem(character)"
         class="characters__box" 
