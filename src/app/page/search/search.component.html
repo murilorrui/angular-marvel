@@ -23,7 +23,11 @@
     [infiniteScrollThrottle]="throttle"
     (scrolled)="onScrollDown()"
   >
-    <div *ngFor="let item of data" class="search__item">
+    <div 
+      *ngFor="let item of data" 
+      class="search__item"
+      (click)="onSelectItem(item)"
+    >
       <img [src]="getImage(item.thumbnail.path, item.thumbnail.extension)" [alt]="item.name">
       <span>{{item.name || item.title}}</span>
     </div>

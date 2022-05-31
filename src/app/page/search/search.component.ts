@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import marvelApi from 'src/app/services/marvel-api';
 import { IOptions } from 'src/app/utils/Interfaces/IOptions';
 import { environment } from 'src/environments/environment';
@@ -35,13 +35,14 @@ export class SearchComponent implements OnInit {
   imageNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
   gitNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif';
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {
     this.searchValue = route.snapshot.queryParamMap.get('search') || '';
   }
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.queryParamMap.get('search'));
-    console.log(this.searchValue);
     this.getData();
   }
 
@@ -53,7 +54,6 @@ export class SearchComponent implements OnInit {
     )
       .then(({ data }) => {
         this.data = this.data.concat(data.data.results);
-        console.log(this.data);
         this.total = data.data.total;
       })
       .finally(() => {
@@ -87,5 +87,9 @@ export class SearchComponent implements OnInit {
     this.searchParam = item.value;
     this.searchType = item.label;
     this.newSearch();
+  }
+
+  onSelectItem = (item: any) => {
+    this.router.navigate([`/profile/${this.searchType}/${item.id}`]);
   }
 }

@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit {
   getProfile = () => {
     this.loading = true;
     marvelApi.get(
-      `/${this.pageType}s/${this.id}?&apikey=${environment.API_KEY}`
+      `/${this.pageType}/${this.id}?&apikey=${environment.API_KEY}`
     )
       .then(({ data }) => {
         console.log(data);
@@ -73,7 +73,7 @@ export class ProfileComponent implements OnInit {
     if (this.total < this.offset) return;
     this.loadingData = true;
     marvelApi.get(
-      `/${this.pageType}s/${this.id}/${this.searchType}?limit=9&offset=${this.offset}&apikey=${environment.API_KEY}`
+      `/${this.pageType}/${this.id}/${this.searchType}?limit=9&offset=${this.offset}&apikey=${environment.API_KEY}`
     )
       .then(({ data }) => {
         this.data = this.data.concat(data.data.results);

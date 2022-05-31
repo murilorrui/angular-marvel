@@ -13,6 +13,7 @@
       <div 
         *ngFor="let character of characters.slice((gridIndex * 10), ((gridIndex + 1) * 10)); index as characterIndex" 
         [ngStyle]="getGridArea(characterIndex)"
+        (click)="onSelectItem(character)"
         class="characters__box" 
       >
         <div class="characters__name__border"></div>
