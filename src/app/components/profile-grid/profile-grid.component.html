@@ -3,6 +3,6 @@
   *ngFor="let grid of [].constructor(multipleLimite); index as gridIndex"
 >
   <div class="profile-grid__box" *ngFor="let item of data.slice((gridIndex * 3), ((gridIndex + 1) * 3))">
-    <img [src]="getImage(item.thumbnail.path, item.thumbnail.extension)" alt="">
+    <img [src]="getImage(item.thumbnail.path, item.thumbnail.extension)" loading="eager" alt="">
   </div>
 </div>

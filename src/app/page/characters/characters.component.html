@@ -22,7 +22,7 @@
             {{formatCharacterName(character.name)}}
           </span>
         </div>
-        <img [src]="getCharacterImage(character.thumbnail.path, character.thumbnail.extension)" [alt]="character.name">
+        <img [src]="getCharacterImage(character.thumbnail.path, character.thumbnail.extension)" loading="eager" [alt]="character.name">
       </div>
     </div>
     <div *ngIf="loading">
