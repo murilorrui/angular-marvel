@@ -7,7 +7,7 @@ import { IOptions } from 'src/app/utils/Interfaces/IOptions';
   styleUrls: ['./options-menu.component.scss']
 })
 export class OptionsMenuComponent {
-  @Input() options: any;
+  @Input() options: Array<IOptions> = [];
   @Input() active: string = '';
   @Output() onSelect: EventEmitter<IOptions> = new EventEmitter();
 

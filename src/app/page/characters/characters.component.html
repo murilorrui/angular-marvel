@@ -19,10 +19,10 @@
         <div class="characters__name__border"></div>
         <div class="characters__name">
           <span>
-            {{formatCharacterName(character.name)}}
+            {{formatCharacterName(character.name || '')}}
           </span>
         </div>
-        <img [src]="getCharacterImage(character.thumbnail.path, character.thumbnail.extension)" loading="eager" [alt]="character.name">
+        <img [src]="getCharacterImage(character.thumbnail?.path || '', character.thumbnail?.extension || '')" loading="eager" [alt]="character.name">
       </div>
     </div>
     <div *ngIf="loading">

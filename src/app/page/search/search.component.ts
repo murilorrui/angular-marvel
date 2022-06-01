@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import marvelApi from 'src/app/services/marvel-api';
+import { ICharacter, ICreator } from 'src/app/utils/Interfaces/IMarvelApi';
 import { IOptions } from 'src/app/utils/Interfaces/IOptions';
 import { environment } from 'src/environments/environment';
 
@@ -17,7 +18,7 @@ export class SearchComponent {
   throttle: number = 10;
   scrollDistance: number = 1;
   scrollUpDistance: number = 2;
-  data: any = [];
+  data: Array<ICharacter | ICreator> = [];
   multipleLimite: number = 0;
   total: number = 0;
   searchType: string = 'characters';
@@ -85,7 +86,7 @@ export class SearchComponent {
     this.newSearch();
   }
 
-  onSelectItem = (item: any) => {
-    this.router.navigate([`/profile/${this.searchType}/${item.id}`]);
+  onSelectItem = (id: number = 0) => {
+    this.router.navigate([`/profile/${this.searchType}/${id}`]);
   }
 }

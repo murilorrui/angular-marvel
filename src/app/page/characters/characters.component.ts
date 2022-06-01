@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import marvelApi from 'src/app/services/marvel-api';
+import { ICharacter, IRequestDataContainer } from 'src/app/utils/Interfaces/IMarvelApi';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -9,7 +10,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./characters.component.scss']
 })
 export class CharactersComponent implements OnInit {
-  characters: any = [];
+  characters: Array<ICharacter> = [];
   throttle: number = 1;
   scrollDistance: number = 0;
   scrollUpDistance: number = 2;
@@ -103,7 +104,7 @@ export class CharactersComponent implements OnInit {
     return `${image}.${format}`;
   }
 
-  onSelectItem = (item: any) => {
+  onSelectItem = (item: ICharacter) => {
     this.router.navigate([`/profile/characters/${item.id}`]);
   }
 

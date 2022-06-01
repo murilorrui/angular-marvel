@@ -1,23 +1,23 @@
 <section class="profile">
   <div class="profile__header" *ngIf="!loading">
-    <img [src]="getImage(profile.thumbnail.path, profile.thumbnail.extension)" loading="eager" [alt]="profile.name">
+    <img [src]="getImage(profile.thumbnail?.path || '', profile.thumbnail?.extension || '')" loading="eager" [alt]="profile.name">
     <div class="profile__infos">
       <div class="profile__numbers">
         <div>
           <span>
-            {{profile.comics.available}}
+            {{profile.comics?.available}}
           </span>
           <span>Comics</span>
         </div>
         <div>
           <span>
-            {{profile.series.available}}
+            {{profile.series?.available}}
           </span>
           <span>Series</span>
         </div>
         <div>
           <span>
-            {{profile.stories.available}}
+            {{profile.stories?.available}}
           </span>
           <span>Stories</span>
         </div>

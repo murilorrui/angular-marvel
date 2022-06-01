@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IComic, ISeries } from 'src/app/utils/Interfaces/IMarvelApi';
 
 @Component({
   selector: 'app-profile-grid',
@@ -6,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./profile-grid.component.scss']
 })
 export class ProfileGridComponent {
-  @Input() data: any;
+  @Input() data: Array<IComic | ISeries> = [];
   @Input() multipleLimite: number = 0;
 
   imageNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';

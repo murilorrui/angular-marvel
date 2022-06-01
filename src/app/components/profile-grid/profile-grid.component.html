@@ -2,6 +2,6 @@
   class="profile-grid"
 >
   <div class="profile-grid__box" *ngFor="let item of data">
-    <img [src]="getImage(item.thumbnail.path, item.thumbnail.extension)" loading="eager" alt="">
+    <img [src]="getImage(item.thumbnail?.path || '', item.thumbnail?.extension || '')" loading="eager" alt="">
   </div>
 </div>

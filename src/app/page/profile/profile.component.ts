@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import marvelApi from 'src/app/services/marvel-api';
+import { ICharacter, IComic, ICreator, ISeries } from 'src/app/utils/Interfaces/IMarvelApi';
 import { IOptions } from 'src/app/utils/Interfaces/IOptions';
 import { environment } from 'src/environments/environment';
 
@@ -14,8 +15,8 @@ export class ProfileComponent implements OnInit {
   pageType: string | null = '';
   loading: boolean = false;
   loadingData: boolean = false;
-  profile: any;
-  data: any = [];
+  profile: ICharacter | ICreator = {};
+  data: Array<IComic | ISeries> = [];
   offset: number = 0;
   limit: number = 9;
   throttle: number = 1;
@@ -36,7 +37,7 @@ export class ProfileComponent implements OnInit {
   imageNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
   gifNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif';
 
-  public getScreenWidth: any;
+  public getScreenWidth: number = 0;
   
   constructor(route: ActivatedRoute) {
     this.id = route.snapshot.paramMap.get('id');

@@ -26,10 +26,10 @@
     <div 
       *ngFor="let item of data" 
       class="search__item"
-      (click)="onSelectItem(item)"
+      (click)="onSelectItem(item.id)"
     >
-      <img [src]="getImage(item.thumbnail.path, item.thumbnail.extension)" loading="eager" [alt]="item.name">
-      <span>{{item.name || item.fullName || item.firstName}}</span>
+      <img [src]="getImage(item.thumbnail?.path || '', item.thumbnail?.extension || '')" loading="eager" [alt]="item.name">
+      <span>{{item.name || item.fullName || item.firstName }}</span>
     </div>
     <app-search-loading *ngIf="loading"></app-search-loading>
   </div>
