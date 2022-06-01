@@ -5,11 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './profile-grid-loading.component.html',
   styleUrls: ['./profile-grid-loading.component.scss']
 })
-export class ProfileGridLoadingComponent implements OnInit {
+export class ProfileGridLoadingComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }
