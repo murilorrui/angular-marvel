@@ -13,7 +13,7 @@
         width: 100%;
         display: flex;
     }
-    &__menu {
+    &__btn {
         display: flex;
         align-items: center;
         cursor: pointer;
@@ -25,20 +25,20 @@
         height: 100vh;
         top: 4rem;
         cursor: not-allowed;
+        left: 0;
     }
     &__navigation {
         z-index: 10;
         position: fixed;
-        left: -250px;
+        right: -250px;
         top: 4rem;
         bottom: 0;
         width: 250px;
-        transform: translateX(-250px);
         transition: transform 150ms cubic-bezier(.5,0,.1,1),-webkit-transform 150ms cubic-bezier(.5,0,.1,1),-moz-transform 150ms cubic-bezier(.5,0,.1,1),-o-transform 150ms cubic-bezier(.5,0,.1,1);
         background: var(--secondary);
         border-top: 1px solid var(--neutral-color-100);
         &--visible {
-            left: 0px;
+            right: 0px;
             -webkit-transform: translateX(0px);
             -moz-transform: translateX(0px);
             -ms-transform: translateX(0px);
@@ -52,10 +52,10 @@
             align-items: center;
             gap: 1rem;
             &:hover {
-                background: linear-gradient(90deg, rgba(236,29,37,1) 0%, rgba(236,29,37,0.3) 50%, rgba(255,255,255,0) 100%);
+                background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(236,29,37,0.3) 50%, rgba(236,29,37,1) 100%);
             }
             &--active {
-                border-left: .5rem solid var(--primary);
+                border-right: .5rem solid var(--primary);
             }
         }
     }

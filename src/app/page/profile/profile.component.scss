@@ -54,4 +54,16 @@
             border: none;
         }
     }
+    &__data-not-found {
+        padding: 4rem 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-self: center;
+        text-align: center;
+        align-items: center;
+        gap: 1rem;
+        & > img {
+            width: 4rem;
+        }
+    }
 }

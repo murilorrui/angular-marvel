@@ -49,6 +49,16 @@
             }
         }
     }
+    &__suggestions {
+        padding: 4rem 1rem;
+        display: flex;
+        justify-content: center;
+    }
+    &__suggestions-item {
+        margin: 1rem 0;
+        font-weight: 300;
+        list-style: disc;
+    }
     &__not-found {
         padding: 1rem;
         border-top: 1px solid var(--neutral-color-300);

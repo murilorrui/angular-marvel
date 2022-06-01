@@ -29,7 +29,7 @@
       (click)="onSelectItem(item)"
     >
       <img [src]="getImage(item.thumbnail.path, item.thumbnail.extension)" loading="eager" [alt]="item.name">
-      <span>{{item.name || item.title}}</span>
+      <span>{{item.name || item.fullName || item.firstName}}</span>
     </div>
     <app-search-loading *ngIf="loading"></app-search-loading>
   </div>
@@ -37,5 +37,18 @@
     <h5>No results for {{ searchValue }}</h5>
     <span>Try checking your spelling</span>
     <img src="../../../assets/search-not-found.jpeg" alt="search-not-found">
+  </div>
+  <div 
+    *ngIf="firstRequest"
+    class="search__suggestions"
+  >
+    <div>
+      <h5>Suggestions:</h5>
+      <ul>
+        <li class="search__suggestions-item">Lookings for a character or creator?</li>
+        <li class="search__suggestions-item">Try using a character name</li>
+        <li class="search__suggestions-item">Change the search type and try using a creator's name</li>
+      </ul>
+    </div>
   </div>
 </section>

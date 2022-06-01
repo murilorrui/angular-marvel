@@ -10,7 +10,7 @@ export class HeaderComponent {
   sidebarIsVisible: boolean = false;
 
   constructor(
-    private router: Router,
+    public router: Router,
   ) {
   }
 
@@ -21,5 +21,9 @@ export class HeaderComponent {
   goTo = (path: string) => {
     this.sidebarIsVisible = false;
     this.router.navigate([path]);
+  }
+
+  backToHome = () => {
+    this.router.navigate(['/']);
   }
 }

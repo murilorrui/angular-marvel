@@ -50,4 +50,11 @@
     ></app-profile-grid>
     <app-profile-grid-loading *ngIf="loadingData"></app-profile-grid-loading>
   </div>
+  <div 
+    class="profile__data-not-found"
+    *ngIf="!loading && total === 0"
+    >
+      <img [src]="getImageNotFound()">
+      <span>{{ profile.name || profile.fullName || profile.firstName }} did not have any matches.</span>
+  </div>
 </section>

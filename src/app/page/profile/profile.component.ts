@@ -41,7 +41,6 @@ export class ProfileComponent implements OnInit {
   constructor(route: ActivatedRoute) {
     this.id = route.snapshot.paramMap.get('id');
     this.pageType = route.snapshot.paramMap.get('type');
-    console.log(this.id);
   }
 
   ngOnInit(): void {
@@ -56,7 +55,6 @@ export class ProfileComponent implements OnInit {
       `/${this.pageType}/${this.id}?&apikey=${environment.API_KEY}`
     )
       .then(({ data }) => {
-        console.log(data);
         this.profile = data.data.results[0];
       })
       .finally(() => {
@@ -69,8 +67,6 @@ export class ProfileComponent implements OnInit {
   }
 
   getData = () => {
-    console.log(1);
-    
     if (this.total < this.offset) return;
     this.loadingData = true;
     marvelApi.get(
@@ -104,9 +100,12 @@ export class ProfileComponent implements OnInit {
     this.newSearch();
   }
 
+  getImageNotFound = () => {
+    return this.searchType === 'comics' ? '../../../assets/comic.png' : '../../../assets/series.png'
+  }
+
   @HostListener('window:resize', ['$event'])
   onWindowResize() {
     this.getScreenWidth = window.innerWidth;
-    console.log(this.getScreenWidth);
   }
 }

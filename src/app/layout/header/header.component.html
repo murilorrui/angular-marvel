@@ -1,5 +1,15 @@
 <header class="header">
-  <div class="header__menu" (click)="sidebarIsVisible = !sidebarIsVisible">
+  <div
+    *ngIf="router.url !== '/'"
+    class="header__btn" 
+    (click)="backToHome()"
+  >
+    <img src="../../../assets/back.svg" alt="">
+  </div>
+  <div class="header__logo">
+    <img src="../../../assets/marvel.svg" alt="marvel-logo">
+  </div>
+  <div class="header__btn" (click)="sidebarIsVisible = !sidebarIsVisible">
     <img src="../../../assets/menu.svg" alt="">
   </div>
   <div>
@@ -25,8 +35,5 @@
         <div>Search</div>
       </div>
     </div>
-  </div>
-  <div class="header__logo">
-    <img src="../../../assets/marvel.svg" alt="marvel-logo">
   </div>
 </header>
