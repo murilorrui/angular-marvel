@@ -10,8 +10,8 @@ import { environment } from 'src/environments/environment';
 })
 export class CharactersComponent implements OnInit {
   characters: any = [];
-  throttle: number = 10;
-  scrollDistance: number = 1;
+  throttle: number = 1;
+  scrollDistance: number = 0;
   scrollUpDistance: number = 2;
   limit: number = 10;
   offset: number = 0;
@@ -24,6 +24,7 @@ export class CharactersComponent implements OnInit {
 
   constructor(private router: Router) {
     this.getScreenWidth = window.innerWidth;
+    this.limit = this.getScreenWidth > 425 ? 18 : 10;
   }
 
   ngOnInit(): void {
@@ -31,7 +32,7 @@ export class CharactersComponent implements OnInit {
   }
 
   getCharacters = () => {
-    if (this.total < this.offset) return;
+    if ((this.total < this.offset) || this.loading) return;
     this.loading = true;
     marvelApi.get(`/characters?limit=${this.limit}&offset=${this.offset}&apikey=${environment.API_KEY}`)
       .then(({ data }) => {
@@ -52,10 +53,40 @@ export class CharactersComponent implements OnInit {
   getGridArea = (index: number) => {
     if (index === 0) return {'grid-area': `1 / 1 / span 2 / span 2`};
 
-    if (index === 6) {
+    if (index === 2) {
       return this.getScreenWidth > 425 ? 
-        {'grid-area': `3 / 3 / span 2 / span 4`} :
+        {'grid-area': `1 / 5 / span 2 / span 4`} :
         {'grid-area': `4 / 1 / span 2 / span 3`}
+    }
+
+    if (index === 5) {
+      return this.getScreenWidth > 425 ? 
+        {'grid-area': `3 / 1 / span 2 / span 4`} :
+        {'grid-area': 'auto'}
+    }
+
+    if (index === 7) {
+      return this.getScreenWidth > 425 ? 
+        {'grid-area': `3 / 9 / span 2 / span 4`} :
+        {'grid-area': 'auto'}
+    }
+
+    if (index === 11) {
+      return this.getScreenWidth > 425 ? 
+        {'grid-area': `5 / 5 / span 2 / span 4`} :
+        {'grid-area': 'auto'}
+    }
+
+    if (index === 14) {
+      return this.getScreenWidth > 425 ? 
+        {'grid-area': `7 / 1 / span 2 / span 4`} :
+        {'grid-area': 'auto'}
+    }
+
+    if (index === 17) {
+      return this.getScreenWidth > 425 ? 
+        {'grid-area': `7 / 9 / span 2 / span 4`} :
+        {'grid-area': 'auto'}
     }
 
     return this.getScreenWidth > 425 ? 

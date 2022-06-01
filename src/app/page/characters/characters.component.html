@@ -14,7 +14,7 @@
         *ngFor="let character of characters.slice((gridIndex * limit), ((gridIndex + 1) * limit)); index as characterIndex" 
         [ngStyle]="getGridArea(characterIndex)"
         (click)="onSelectItem(character)"
-        class="characters__box" 
+        class="characters__box"
       >
         <div class="characters__name__border"></div>
         <div class="characters__name">
@@ -26,7 +26,9 @@
       </div>
     </div>
     <div *ngIf="loading">
-      <app-characters-loading></app-characters-loading>
+      <app-characters-loading 
+        [getScreenWidth]="getScreenWidth"
+      ></app-characters-loading>
     </div>
   </div>
 </section>
