@@ -1,17 +1,16 @@
 <section class="characters">
   <div
     infinite-scroll
-    [infiniteScrollDistance]="scrollDistance"
-    [infiniteScrollUpDistance]="scrollUpDistance"
-    [infiniteScrollThrottle]="throttle"
+    [infiniteScrollDistance]="2"
+    [scrollWindow]="true"
     (scrolled)="onScrollDown()"
   >
     <div 
       class="characters__grid"
-      *ngFor="let grid of [].constructor(multipleLimite); index as gridIndex"
+      *ngFor="let grid of [].constructor(multipleLimit); index as gridIndex"
     >
       <div 
-        *ngFor="let character of characters.slice((gridIndex * limit), ((gridIndex + 1) * limit)); index as characterIndex" 
+        *ngFor="let character of characters.results.slice((gridIndex * limit), ((gridIndex + 1) * limit)); index as characterIndex" 
         [ngStyle]="getGridArea(characterIndex)"
         (click)="onSelectItem(character)"
         class="characters__box"
@@ -22,12 +21,12 @@
             {{formatCharacterName(character.name || '')}}
           </span>
         </div>
-        <img [src]="getCharacterImage(character.thumbnail?.path || '', character.thumbnail?.extension || '')" loading="eager" [alt]="character.name">
+        <img [src]="utilsService.getImage(character.thumbnail?.path || '', character.thumbnail?.extension || '')" loading="eager" [alt]="character.name">
       </div>
     </div>
     <div *ngIf="loading">
       <app-characters-loading 
-        [getScreenWidth]="getScreenWidth"
+        [isMobile]="isMobile"
       ></app-characters-loading>
     </div>
   </div>

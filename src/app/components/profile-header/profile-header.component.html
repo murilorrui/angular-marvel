@@ -1,0 +1,34 @@
+<div class="profile-header" *ngIf="!loading">
+  <img [src]="utilsService.getImage(path, extension)" loading="eager" [alt]="name">
+  <div class="profile-header__infos">
+    <div class="profile-header__numbers">
+      <div>
+        <span>
+          {{comicsTotal}}
+        </span>
+        <span>Comics</span>
+      </div>
+      <div>
+        <span>
+          {{seriesTotal}}
+        </span>
+        <span>Series</span>
+      </div>
+      <div>
+        <span>
+          {{storiesTotal}}
+        </span>
+        <span>Stories</span>
+      </div>
+    </div>
+    <div class="profile-header__description" *ngIf="!loading && !isMobile">
+      <h5>{{ name }}</h5>
+      <span *ngIf="description">{{ description }}</span>
+    </div>
+  </div>
+</div>
+<app-profile-header-loading *ngIf="loading"></app-profile-header-loading>
+<div class="profile-header__description" *ngIf="!loading && isMobile">
+  <h5>{{ name }}</h5>
+  <span *ngIf="description">{{ description }}</span>
+</div>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,8 @@ import { OptionsMenuComponent } from './components/options-menu/options-menu.com
 import { ProfileGridComponent } from './components/profile-grid/profile-grid.component';
 import { ProfileHeaderLoadingComponent } from './components/loadings/profile-header-loading/profile-header-loading.component';
 import { ProfileGridLoadingComponent } from './components/loadings/profile-grid-loading/profile-grid-loading.component';
+import { SearchItemComponent } from './components/search-item/search-item.component';
+import { ProfileHeaderComponent } from './components/profile-header/profile-header.component';
 
 @NgModule({
   declarations: [
@@ -35,12 +38,15 @@ import { ProfileGridLoadingComponent } from './components/loadings/profile-grid-
     OptionsMenuComponent,
     ProfileGridComponent,
     ProfileHeaderLoadingComponent,
-    ProfileGridLoadingComponent
+    ProfileGridLoadingComponent,
+    SearchItemComponent,
+    ProfileHeaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     InfiniteScrollModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

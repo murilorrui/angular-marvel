@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import marvelApi from 'src/app/services/marvel-api';
-import { ICharacter, ICreator } from 'src/app/utils/Interfaces/IMarvelApi';
+import { MarvelService } from 'src/app/services/marvel.services';
+import { ICharacterDataContainer, ICreatorDataContainer } from 'src/app/utils/Interfaces/IMarvelApi';
 import { IOptions } from 'src/app/utils/Interfaces/IOptions';
-import { environment } from 'src/environments/environment';
-
+import { UtilsService } from 'src/app/services/utils.service';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -18,55 +17,77 @@ export class SearchComponent {
   throttle: number = 10;
   scrollDistance: number = 1;
   scrollUpDistance: number = 2;
-  data: Array<ICharacter | ICreator> = [];
-  multipleLimite: number = 0;
+  initialData = {
+    offset: 0,
+    limit: 0, 
+    total: 0,
+    count: 0,
+    results: []
+  }
+  characters: ICharacterDataContainer = this.initialData;
+  creators: ICreatorDataContainer = this.initialData;
+  multipleLimit: number = 0;
   total: number = 0;
   searchType: string = 'characters';
-  searchParam: string = 'nameStartsWith';
   firstRequest: boolean = true;
   dropdownOptions: Array<IOptions> = [
     {
       label: 'characters',
-      value: 'nameStartsWith',
+      value: 'characters',
     },
     {
       label: 'creators',
-      value: 'nameStartsWith',
+      value: 'creators',
     },
   ]
-  imageNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
-  gifNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif';
 
   constructor(
     private router: Router,
+    private marvelService: MarvelService,
+    public utilsService: UtilsService
   ) {
   }
 
-  getData = () => {
+  getCharacter = () => {
     if ((this.total < this.offset) || this.searchValue.length === 0) return;
     this.loading = true;
-    marvelApi.get(
-      `/${this.searchType}?limit=10&offset=${this.offset}&${this.searchParam}=${this.searchValue}&apikey=${environment.API_KEY}`
-    )
-      .then(({ data }) => {
-        this.data = this.data.concat(data.data.results);
-        this.total = data.data.total;
-      })
-      .finally(() => {
+    this.marvelService.getCharacters(
+      this.limit, 
+      this.offset,
+      this.searchValue
+    ).subscribe(({ data }) => {
+        this.characters = { ...data, results: this.characters.results.concat(data.results) };
+        this.total = data.total;
+        this.multipleLimit++;
+        this.offset = this.limit * this.multipleLimit;
         this.loading = false;
         this.firstRequest = false;
-      });
-    this.multipleLimite++;
-    this.offset = this.limit * this.multipleLimite;
+      })
+  }
+
+  getCreator = () => {
+    if ((this.total < this.offset) || this.searchValue.length === 0) return;
+    this.loading = true;
+    this.marvelService.getCreators(
+      this.limit, 
+      this.offset,
+      this.searchValue
+    ).subscribe(({ data }) => {
+        this.creators = { ...data, results: this.creators.results.concat(data.results) };
+        this.total = data.total;
+        this.multipleLimit++;
+        this.offset = this.limit * this.multipleLimit;
+        this.loading = false;
+        this.firstRequest = false;
+      })
   }
 
   onScrollDown = () => {
-    this.getData();
+    this.searchType === 'characters' ? this.getCharacter() : this.getCreator();
   }
 
-  getImage = (image: string, format: string) => {
-    if (this.imageNotAvailableUrl === `${image}.${format}` || this.gifNotAvailableUrl === `${image}.${format}`) return '../../../assets/not-found.jpeg';
-    return `${image}.${format}`;
+  get getItems() {
+    return this.searchType ? this.characters.results : this.creators.results;
   }
 
   setSearchValue = (e: any) => {
@@ -74,15 +95,15 @@ export class SearchComponent {
   }
 
   newSearch = () => {
-    this.data = [];
-    this.multipleLimite = 1;
+    this.characters = this.initialData;
+    this.creators = this.initialData;
+    this.multipleLimit = 0;
     this.offset = 0;
-    this.getData();
+    this.searchType === 'characters' ? this.getCharacter() : this.getCreator();
   }
 
   onSelectSearchType = (item: IOptions) => {
-    this.searchParam = item.value;
-    this.searchType = item.label;
+    this.searchType = item.value;
     this.newSearch();
   }
 

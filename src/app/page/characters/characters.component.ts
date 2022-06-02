@@ -1,8 +1,8 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import marvelApi from 'src/app/services/marvel-api';
-import { ICharacter, IRequestDataContainer } from 'src/app/utils/Interfaces/IMarvelApi';
-import { environment } from 'src/environments/environment';
+import { MarvelService } from 'src/app/services/marvel.services';
+import { UtilsService } from 'src/app/services/utils.service';
+import { ICharacter, ICharacterDataContainer } from 'src/app/utils/Interfaces/IMarvelApi';
 
 @Component({
   selector: 'app-characters',
@@ -10,22 +10,28 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./characters.component.scss']
 })
 export class CharactersComponent implements OnInit {
-  characters: Array<ICharacter> = [];
-  throttle: number = 1;
-  scrollDistance: number = 0;
-  scrollUpDistance: number = 2;
+  characters: ICharacterDataContainer = {
+    limit: 10,
+    offset: 0,
+    total: 0,
+    count: 0,
+    results: []
+  };
   limit: number = 10;
-  offset: number = 0;
-  total: number = 0;
-  multipleLimite: number = 0;
+  multipleLimit: number = 0;
   loading: boolean = false;
   getScreenWidth: number = 0 
-  imageNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
-  gifNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif';
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private marvelService: MarvelService,
+    public utilsService: UtilsService
+  ) {
     this.getScreenWidth = window.innerWidth;
-    this.limit = this.getScreenWidth > 425 ? 18 : 10;
+    this.limit = this.isMobile ? 10 : 27;
+    this.characters.offset = this.marvelService.getOffset() || 0;
+    this.characters.total = this.characters.offset;
+    this.multipleLimit = this.characters.offset / this.limit;
   }
 
   ngOnInit(): void {
@@ -33,18 +39,15 @@ export class CharactersComponent implements OnInit {
   }
 
   getCharacters = () => {
-    if ((this.total < this.offset) || this.loading) return;
+    if ((this.characters.total < this.characters.offset) || this.loading) return;
+    console.log(22222);
     this.loading = true;
-    marvelApi.get(`/characters?limit=${this.limit}&offset=${this.offset}&apikey=${environment.API_KEY}`)
-      .then(({ data }) => {
-        this.characters = this.characters.concat(data.data.results);
-        this.total = data.data.total;
-      })
-      .finally(() => {
+    this.marvelService.getCharactersWithCache(this.limit, this.characters.offset)
+      .subscribe(({ data }) => { 
+        this.multipleLimit++;
+        this.characters = { ...data, offset: this.limit * this.multipleLimit };
         this.loading = false;
-      });
-    this.multipleLimite++;
-    this.offset = this.limit * this.multipleLimite;
+      })
   }
 
   onScrollDown = () => {
@@ -52,64 +55,23 @@ export class CharactersComponent implements OnInit {
   }
 
   getGridArea = (index: number) => {
+    if (!this.isMobile) {
+      return (index + 1) % 3 === 0 ? {'grid-area': `span 2 / span 4`} : {'grid-area': 'span 2 /  span 2'}
+    }
     if (index === 0) return {'grid-area': `1 / 1 / span 2 / span 2`};
-
-    if (index === 2) {
-      return this.getScreenWidth > 425 ? 
-        {'grid-area': `1 / 5 / span 2 / span 4`} :
-        {'grid-area': `4 / 1 / span 2 / span 3`}
-    }
-
-    if (index === 5) {
-      return this.getScreenWidth > 425 ? 
-        {'grid-area': `3 / 1 / span 2 / span 4`} :
-        {'grid-area': 'auto'}
-    }
-
-    if (index === 7) {
-      return this.getScreenWidth > 425 ? 
-        {'grid-area': `3 / 9 / span 2 / span 4`} :
-        {'grid-area': 'auto'}
-    }
-
-    if (index === 11) {
-      return this.getScreenWidth > 425 ? 
-        {'grid-area': `5 / 5 / span 2 / span 4`} :
-        {'grid-area': 'auto'}
-    }
-
-    if (index === 14) {
-      return this.getScreenWidth > 425 ? 
-        {'grid-area': `7 / 1 / span 2 / span 4`} :
-        {'grid-area': 'auto'}
-    }
-
-    if (index === 17) {
-      return this.getScreenWidth > 425 ? 
-        {'grid-area': `7 / 9 / span 2 / span 4`} :
-        {'grid-area': 'auto'}
-    }
-
-    return this.getScreenWidth > 425 ? 
-      {'grid-area': 'auto / auto / span 2 / span 2'} :
-      {'grid-area': 'auto'}
+    if (index === 7) return {'grid-area': `4 / 1 / span 2 / span 3`};
+    return {'grid-area': 'auto'};
   }
 
   formatCharacterName = (name: string) => {
     return name.split(/[\*+/_(]/)[0]
   }
 
-  getCharacterImage = (image: string, format: string) => {
-    if (this.imageNotAvailableUrl === `${image}.${format}` || this.gifNotAvailableUrl === `${image}.${format}`) return '../../../assets/not-found.jpeg';
-    return `${image}.${format}`;
-  }
-
   onSelectItem = (item: ICharacter) => {
     this.router.navigate([`/profile/characters/${item.id}`]);
   }
 
-  @HostListener('window:resize', ['$event'])
-  onWindowResize() {
-    this.getScreenWidth = window.innerWidth;
+  get isMobile() {
+    return this.utilsService.onWindowResize() < 426;
   }
 }

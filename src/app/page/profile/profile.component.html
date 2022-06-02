@@ -1,38 +1,14 @@
 <section class="profile">
-  <div class="profile__header" *ngIf="!loading">
-    <img [src]="getImage(profile.thumbnail?.path || '', profile.thumbnail?.extension || '')" loading="eager" [alt]="profile.name">
-    <div class="profile__infos">
-      <div class="profile__numbers">
-        <div>
-          <span>
-            {{profile.comics?.available}}
-          </span>
-          <span>Comics</span>
-        </div>
-        <div>
-          <span>
-            {{profile.series?.available}}
-          </span>
-          <span>Series</span>
-        </div>
-        <div>
-          <span>
-            {{profile.stories?.available}}
-          </span>
-          <span>Stories</span>
-        </div>
-      </div>
-      <div class="profile__description" *ngIf="!loading && getScreenWidth > 425">
-        <h5>{{ profile.name || profile.fullName || profile.firstName }}</h5>
-        <span *ngIf="profile.description">{{ profile.description }}</span>
-      </div>
-    </div>
-  </div>
-  <app-profile-header-loading *ngIf="loading"></app-profile-header-loading>
-  <div class="profile__description" *ngIf="!loading && getScreenWidth < 426">
-    <h5>{{ profile.name || profile.fullName || profile.firstName }}</h5>
-    <span *ngIf="profile.description">{{ profile.description }}</span>
-  </div>
+  <app-profile-header
+    [name]="name"
+    [description]="description"
+    [path]="path"
+    [extension]="extension"
+    [loading]="loading"
+    [comicsTotal]="comicsTotal"
+    [seriesTotal]="seriesTotal"
+    [storiesTotal]="storiesTotal"
+  ></app-profile-header>
   <app-options-menu
     [options]="menuOptions" 
     (onSelect)="onSelectMenu($event)"
@@ -40,21 +16,27 @@
   ></app-options-menu>
   <div
     infinite-scroll
-    [infiniteScrollDistance]="scrollDistance"
-    [infiniteScrollThrottle]="throttle"
+    [infiniteScrollDistance]="5"
+    [scrollWindow]="true"
     (scrolled)="onScrollDown()"
   >
-    <app-profile-grid 
-      [data]="data"
-      [multipleLimite]="multipleLimite"
+    <app-profile-grid
+      *ngIf="searchType === 'comics'"
+      [data]="comics.results"
+      [multipleLimite]="multipleComics"
     ></app-profile-grid>
-    <app-profile-grid-loading *ngIf="loadingData"></app-profile-grid-loading>
+    <app-profile-grid 
+      *ngIf="searchType === 'series'"
+      [data]="series.results"
+      [multipleLimite]="multipleSeries"
+    ></app-profile-grid>
+    <app-profile-grid-loading *ngIf="loadingComics || loadingSeries"></app-profile-grid-loading>
   </div>
   <div 
     class="profile__data-not-found"
-    *ngIf="!loading && total === 0"
+    *ngIf="!loading && (comics.total === 0 || series.total === 0)"
     >
       <img [src]="getImageNotFound()">
-      <span>{{ profile.name || profile.fullName || profile.firstName }} did not have any matches.</span>
+      <span>{{ name }} did not have any matches.</span>
   </div>
 </section>

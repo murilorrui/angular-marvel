@@ -23,14 +23,20 @@
     [infiniteScrollThrottle]="throttle"
     (scrolled)="onScrollDown()"
   >
-    <div 
-      *ngFor="let item of data" 
-      class="search__item"
-      (click)="onSelectItem(item.id)"
-    >
-      <img [src]="getImage(item.thumbnail?.path || '', item.thumbnail?.extension || '')" loading="eager" [alt]="item.name">
-      <span>{{item.name || item.fullName || item.firstName }}</span>
-    </div>
+    <app-search-item
+      *ngFor="let item of characters.results" 
+      [id]="item.id"
+      [name]="item.name"
+      [image]="utilsService.getImage(item.thumbnail?.path || '', item.thumbnail?.extension || '')"
+      (onSelectItem)="onSelectItem($event)"
+    ></app-search-item>
+    <app-search-item
+      *ngFor="let item of creators.results" 
+      [id]="item.id"
+      [name]="item.fullName || item.firstName"
+      [image]="utilsService.getImage(item.thumbnail?.path || '', item.thumbnail?.extension || '')"
+      (onSelectItem)="onSelectItem($event)"
+    ></app-search-item>
     <app-search-loading *ngIf="loading"></app-search-loading>
   </div>
   <div *ngIf="total === 0 && !firstRequest" class="search__not-found">

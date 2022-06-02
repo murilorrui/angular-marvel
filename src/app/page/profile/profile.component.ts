@@ -1,7 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import marvelApi from 'src/app/services/marvel-api';
-import { ICharacter, IComic, ICreator, ISeries } from 'src/app/utils/Interfaces/IMarvelApi';
+import { MarvelService } from 'src/app/services/marvel.services';
+import { UtilsService } from 'src/app/services/utils.service';
+import { ICharacter, IComic, ISeries, IComicList, ICreator, ISeriesList, IComicDataContainer, ISeriesDataContainer, ICharacterDataContainer, IImage } from 'src/app/utils/Interfaces/IMarvelApi';
 import { IOptions } from 'src/app/utils/Interfaces/IOptions';
 import { environment } from 'src/environments/environment';
 
@@ -13,16 +15,12 @@ import { environment } from 'src/environments/environment';
 export class ProfileComponent implements OnInit {
   id: number | string | null = null;
   pageType: string | null = '';
-  loading: boolean = false;
-  loadingData: boolean = false;
-  profile: ICharacter | ICreator = {};
-  data: Array<IComic | ISeries> = [];
-  offset: number = 0;
+
   limit: number = 9;
   throttle: number = 1;
   scrollDistance: number = 1;
-  multipleLimite: number = 2;
-  total: number = 0;
+  
+  searchType: string = 'comics';
   menuOptions: Array<IOptions> = [
     {
       value: 'comics',
@@ -33,80 +31,135 @@ export class ProfileComponent implements OnInit {
       label: 'Series',
     }
   ]
-  searchType: string = 'comics';
-  imageNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
-  gifNotAvailableUrl: string = 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif';
 
-  public getScreenWidth: number = 0;
-  
-  constructor(route: ActivatedRoute) {
+  name: string = '';
+  description: string = '';
+  path: string = '';
+  extension: string = '';
+  comicsTotal: number = 0;
+  seriesTotal: number = 0;
+  storiesTotal: number = 0;
+  loading: boolean = false;
+
+  initialData = {
+    count: 0,
+    total: 0,
+    offset: 0,
+    limit: 0,
+    results: [],
+  }
+  series: ISeriesDataContainer = this.initialData;
+  comics: IComicDataContainer = this.initialData;
+  multipleComics: number = 0;
+  multipleSeries: number = 0;
+  loadingComics: boolean = false;
+  loadingSeries: boolean = false;
+
+  constructor(
+    private route: ActivatedRoute,
+    private marvelService: MarvelService,
+    public utilsService: UtilsService
+  ) {
     this.id = route.snapshot.paramMap.get('id');
     this.pageType = route.snapshot.paramMap.get('type');
   }
 
   ngOnInit(): void {
     this.getProfile();
-    this.getData();
-    this.getScreenWidth = window.innerWidth;
+    this.getComics();
+    this.getSeries();
   }
 
   getProfile = () => {
     this.loading = true;
-    marvelApi.get(
-      `/${this.pageType}/${this.id}?&apikey=${environment.API_KEY}`
-    )
-      .then(({ data }) => {
-        this.profile = data.data.results[0];
+    if (this.pageType === 'creators') {
+      this.marvelService.getCreatorById(this.id).subscribe(({ data }) => {
+        const creator: ICreator = data.results[0];
+        this.setProfileData(
+          creator.fullName,
+          creator.description,
+          creator.thumbnail,
+          creator.comics.available,
+          creator.series.available,
+          creator.stories.available,
+        );
       })
-      .finally(() => {
-        this.loading = false;
-      });
+      return;
+    }
+    this.marvelService.getCharacterById(this.id).subscribe(({ data }) => {
+      const character: ICharacter = data.results[0];
+      this.setProfileData(
+        character.name,
+        character.description,
+        character.thumbnail,
+        character.comics.available,
+        character.series.available,
+        character.stories.available,
+      );
+    })
+  }
+
+  setProfileData = (
+    name: string,
+    description: string,
+    thumbnail: IImage,
+    comicsTotal: number,
+    seriesTotal: number,
+    storiesTotal: number,
+  ) => {
+    this.name = name;
+    this.description = description;
+    this.path = thumbnail?.path || '';
+    this.extension = thumbnail?.extension || '';
+    this.comicsTotal = comicsTotal;
+    this.seriesTotal = seriesTotal;
+    this.storiesTotal = storiesTotal;
+    this.loading = false;
   }
 
   onScrollDown = () => {
-    this.getData();
+    this.searchType === 'comics' ? this.getComics() : this.getSeries();
   }
 
-  getData = () => {
-    if (this.total < this.offset) return;
-    this.loadingData = true;
-    marvelApi.get(
-      `/${this.pageType}/${this.id}/${this.searchType}?limit=${this.limit}&offset=${this.offset}&apikey=${environment.API_KEY}`
-    )
-      .then(({ data }) => {
-        this.data = this.data.concat(data.data.results);
-        this.total = data.data.total;
+  getComics = () => {
+    if ((this.comics.total < this.comics.offset)) return;
+    this.loadingComics = true;
+    this.marvelService.getComics(this.pageType, this.id, this.limit, this.comics.offset)
+      .subscribe(({ data }) => { 
+        this.multipleComics++;
+        this.comics = { 
+          ...data, 
+          offset: this.limit * this.multipleComics,
+          results: this.comics.results.concat(data.results)
+        };
+        this.loadingComics = false;
       })
-      .finally(() => {
-        this.loadingData = false;
-      });
-    this.multipleLimite++;
-    this.offset = this.limit * this.multipleLimite;
   }
 
-  getImage = (image: string, format: string) => {
-    if (this.imageNotAvailableUrl === `${image}.${format}` || this.gifNotAvailableUrl === `${image}.${format}`) return '../../../assets/not-found.jpeg';
-    return `${image}.${format}`;
-  }
-
-  newSearch = () => {
-    this.data = [];
-    this.multipleLimite = 1;
-    this.offset = 0;
-    this.getData();
+  getSeries = () => {
+    if ((this.series.total < this.series.offset)) return;
+    this.loadingSeries = true;
+    this.marvelService.getSeries(this.pageType, this.id, this.limit, this.series.offset)
+      .subscribe(({ data }) => { 
+        this.multipleSeries++;
+        this.series = { 
+          ...data, 
+          offset: this.limit * this.multipleSeries,
+          results: this.series.results.concat(data.results)
+        };
+        this.loadingSeries = false;
+      })
   }
 
   onSelectMenu = (option: IOptions) => {
     this.searchType = option.value;
-    this.newSearch();
   }
 
   getImageNotFound = () => {
     return this.searchType === 'comics' ? '../../../assets/comic.png' : '../../../assets/series.png'
   }
 
-  @HostListener('window:resize', ['$event'])
-  onWindowResize() {
-    this.getScreenWidth = window.innerWidth;
+  get isMobile() {
+    return this.utilsService.onWindowResize() < 425;
   }
 }
