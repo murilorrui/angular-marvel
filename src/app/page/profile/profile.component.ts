@@ -1,12 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import marvelApi from 'src/app/services/marvel-api';
 import { MarvelService } from 'src/app/services/marvel.services';
 import { UtilsService } from 'src/app/services/utils.service';
-import { ICharacter, IComic, ISeries, IComicList, ICreator, ISeriesList, IComicDataContainer, ISeriesDataContainer, ICharacterDataContainer, IImage } from 'src/app/utils/Interfaces/IMarvelApi';
+import { ICharacter, ICreator, IComicDataContainer, ISeriesDataContainer, IImage } from 'src/app/utils/Interfaces/IMarvelApi';
 import { IOptions } from 'src/app/utils/Interfaces/IOptions';
-import { environment } from 'src/environments/environment';
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',

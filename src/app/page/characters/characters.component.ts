@@ -40,7 +40,6 @@ export class CharactersComponent implements OnInit {
 
   getCharacters = () => {
     if ((this.characters.total < this.characters.offset) || this.loading) return;
-    console.log(22222);
     this.loading = true;
     this.marvelService.getCharactersWithCache(this.limit, this.characters.offset)
       .subscribe(({ data }) => { 
