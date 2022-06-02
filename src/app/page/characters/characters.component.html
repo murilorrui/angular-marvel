@@ -1,7 +1,8 @@
 <section class="characters">
   <div
     infinite-scroll
-    [infiniteScrollDistance]="2"
+    [infiniteScrollDistance]="scrollDistance"
+    [infiniteScrollThrottle]="throttle"
     [scrollWindow]="true"
     (scrolled)="onScrollDown()"
   >

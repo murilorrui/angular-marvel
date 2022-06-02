@@ -13,8 +13,8 @@ export class ProfileComponent implements OnInit {
   id: number | string | null = null;
   pageType: string | null = '';
 
-  limit: number = 9;
-  throttle: number = 1;
+  limit: number = 12;
+  throttle: number = 5;
   scrollDistance: number = 1;
   
   searchType: string = 'comics';
@@ -119,7 +119,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getComics = () => {
-    if ((this.comics.total < this.comics.offset)) return;
+    if ((this.comics.total < this.comics.offset) || this.loadingComics) return;
     this.loadingComics = true;
     this.marvelService.getComics(this.pageType, this.id, this.limit, this.comics.offset)
       .subscribe(({ data }) => { 
@@ -134,7 +134,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getSeries = () => {
-    if ((this.series.total < this.series.offset)) return;
+    if ((this.series.total < this.series.offset) || this.loadingSeries) return;
     this.loadingSeries = true;
     this.marvelService.getSeries(this.pageType, this.id, this.limit, this.series.offset)
       .subscribe(({ data }) => { 

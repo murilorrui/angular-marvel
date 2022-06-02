@@ -16,7 +16,6 @@ export class SearchComponent {
   loading: boolean = false;
   throttle: number = 10;
   scrollDistance: number = 1;
-  scrollUpDistance: number = 2;
   initialData = {
     offset: 0,
     limit: 0, 

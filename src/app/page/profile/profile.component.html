@@ -16,7 +16,8 @@
   ></app-options-menu>
   <div
     infinite-scroll
-    [infiniteScrollDistance]="5"
+    [infiniteScrollDistance]="scrollDistance"
+    [infiniteScrollThrottle]="throttle"
     [scrollWindow]="true"
     (scrolled)="onScrollDown()"
   >

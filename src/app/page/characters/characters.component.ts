@@ -20,7 +20,9 @@ export class CharactersComponent implements OnInit {
   limit: number = 10;
   multipleLimit: number = 0;
   loading: boolean = false;
-  getScreenWidth: number = 0 
+  getScreenWidth: number = 0;
+  throttle: number = 10;
+  scrollDistance: number = 1;
 
   constructor(
     private router: Router,
